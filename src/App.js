@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {bindActionCreators} from 'redux';
+import React, {useEffect} from "react";
+import {useSelector, useDispatch} from 'react-redux';
 import {cardsAction} from "./actions/cardsAction";
 import {cardRandomAction} from "./actions/cardRandomAction";
 
@@ -68,18 +68,17 @@ const StyledButton = styled.button`
 `;
 
 function App(props) {
-  const {
-    cards = [],
-    cardRandom = {},
-  } = props;
+  const {cards} = useSelector((state) => {
+    return state.cardsReducer;
+  }) || [];
+  const {cardRandom} = useSelector(state => {
+    return state.cardsReducer;
+  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const get = async () => {
-      cardsAction();
-    };
-
-    get();
-  }, []);
+    dispatch(cardsAction(cards));
+  }, [dispatch, cards]);
 
   const cardElements = cards.map((item, index) => {
     return (
@@ -93,7 +92,7 @@ function App(props) {
   }
 
   const getRandom = () => {
-    cardRandomAction();
+    dispatch(cardRandomAction());
   };
 
   return (
@@ -114,21 +113,5 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    cards: state.cards.cards,
-    cardRandom: state.cards.cardRandom,
-    loading: state.cards.loading
-  };
-};
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      cardsAction,
-      cardRandomAction,
-    },
-    dispatch
-  );
-
 export default App;
+

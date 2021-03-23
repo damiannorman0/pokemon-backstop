@@ -22,7 +22,7 @@ const getCards = async () => {
 };
 
 const getRandomCard = async () => {
-  const random = Math.round(Math.random() * 20) + 1;
+  const random = Math.floor(Math.random() * 20) + 1;
   const result = await fetch(`https://pokeapi.co/api/v2/pokemon/${random}`);
   const json = await result.json();
   debugger
