@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import logo from './logo.svg';
+import {bindActionCreators} from 'redux';
+import {cardsAction} from "./actions/cardsAction";
+import {cardRandomAction} from "./actions/cardRandomAction";
+
 import './App.css';
 import Card from "./components/Card";
 import styled from 'styled-components/macro';
-import {getCard, getCards, getRandomCard} from "./api";
-
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -66,21 +67,19 @@ const StyledButton = styled.button`
   right: 0;
 `;
 
-function App() {
-  const [name, setname] = useState('');
-  const [cards, setCards] = useState([]);
-  const [randomCard, setRandomCard] = useState('');
-
+function App(props) {
+  const {
+    cards = [],
+    cardRandom = {},
+  } = props;
 
   useEffect(() => {
     const get = async () => {
-      const cards = await getCards();
-      setCards(cards);
+      cardsAction();
     };
 
     get();
-
-  }, [name]);
+  }, []);
 
   const cardElements = cards.map((item, index) => {
     return (
@@ -89,13 +88,12 @@ function App() {
   });
 
   let randomElement;
-  if (randomCard){
-    randomElement = (<Card {...randomCard} />);
+  if (cardRandom){
+    randomElement = (<Card {...cardRandom} />);
   }
 
-  const getRandom = async (e) => {
-    const result = await getRandomCard();
-    setRandomCard(result);
+  const getRandom = () => {
+    cardRandomAction();
   };
 
   return (
@@ -115,5 +113,22 @@ function App() {
     </div>
   );
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    cards: state.cards.cards,
+    cardRandom: state.cards.cardRandom,
+    loading: state.cards.loading
+  };
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      cardsAction,
+      cardRandomAction,
+    },
+    dispatch
+  );
 
 export default App;

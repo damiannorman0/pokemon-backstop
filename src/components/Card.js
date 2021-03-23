@@ -42,7 +42,7 @@ const Card = (props) => {
     base_experience,
     sprites: {
       front_default,
-    }
+    } = {},
   } = props;
 
   return (
