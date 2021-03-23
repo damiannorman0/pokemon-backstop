@@ -51,6 +51,10 @@ const StyledCards = styled.div`
   position: relative;
   align-self: center;
   margin-top: 200px;
+  
+  @media(max-width: 640px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -65,6 +69,7 @@ const StyledButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
+  cursor: pointer;
 `;
 
 function App(props) {
@@ -88,7 +93,7 @@ function App(props) {
 
   let randomElement;
   if (cardRandom){
-    randomElement = (<Card {...cardRandom} />);
+    randomElement = (<Card {...cardRandom} random={true} />);
   }
 
   const getRandom = () => {
@@ -100,7 +105,7 @@ function App(props) {
       <StyledHeader>
         <h1>Available Pokemon!</h1>
         <StyledButton onClick={getRandom}>
-          <span>Get random!</span>
+          <span>?? Get random ??</span>
         </StyledButton>
       </StyledHeader>
       <StyledMain>

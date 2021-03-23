@@ -15,6 +15,7 @@ const StyledCard = styled.div`
   box-shadow: -1px 5px 20px 5px rgba(0,0,0,0.3);
   font-size: larger;
   text-align: center;
+  position: relative;
 `;
 
 const StyledAttr = styled.div`
@@ -36,6 +37,7 @@ const StyledValue = styled.span`
 
 const Card = (props) => {
   const {
+    random,
     weight,
     height,
     name,
@@ -45,8 +47,22 @@ const Card = (props) => {
     } = {},
   } = props;
 
+  const style = random && {
+    backgroundColor: 'pink',
+  } || {};
+
+  const StyledRandom = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    font-size: Xxx-large;
+    font-weight: bolder;
+    color: olive;
+  `;
+
   return (
-    <StyledCard>
+    <StyledCard style={style}>
       <StyledAttr>
         <StyledValue>{name}</StyledValue>
       </StyledAttr>
@@ -63,6 +79,7 @@ const Card = (props) => {
         <span>Height:</span>
         <StyledValue>{height}</StyledValue>
       </StyledAttr>
+      {random && <StyledRandom>?</StyledRandom>}
     </StyledCard>
   );
 };
